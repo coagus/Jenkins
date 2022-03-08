@@ -19,7 +19,9 @@ pipeline {
 					echo "*** LEEMOS ARCHIVO CSV ***"
 					readFile("${InputCSVPath}").split('\n').each { 
 							line, count -> def fields = line.split(',')
-							echo line[0]
+							echo fields[0]
+						    echo '\t'
+						    echo fields[1] == 1 ? 'SI' : 'NO'
 					}
                 }
 			}
