@@ -1,0 +1,28 @@
+def InputCSVPath
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Cargar CSV') {
+            steps {
+                script {
+					echo "*** SE PIDE EL CSV PARA CARGARLO ***"
+                    InputCSVPath = input message:'Cargar', parameters:  [file(name:'archivo.csv', description:'Cargar CSV')]
+                }                
+            }
+        }
+		
+		stage('Leer CSV') {
+			steps {
+				script {
+					echo "*** LEEMOS ARCHIVO CSV ***"
+					readFile("${InputCSVPath}").split('\n').each { 
+							line, count -> def fields = line.split(',')
+							echo line[0]
+					}
+                }
+			}
+		}
+    }
+}
