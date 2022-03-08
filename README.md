@@ -1,2 +1,2 @@
 # Jenkins
-Archivo Jenkins para ejecutar un pipeline
+Proyecto Jenkins para ejecutar pipline
