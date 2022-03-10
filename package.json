@@ -1,0 +1,6 @@
+{
+    "dependencies":[
+      {"group":"org.apache.poi", "id":"poi", "version":"3.8"},
+      {"group":"org.apache.poi", "id":"poi-ooxml", "version":"3.8"},
+    ]
+  }

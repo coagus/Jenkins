@@ -5,11 +5,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Cargar CSV') {
+        stage('Cargar Archivo') {
             steps {
                 script {                    
 					echo "*** SE PIDE EL CSV PARA CARGARLO ***"
-                    InputCSVPath = input message:'Cargar', parameters:  [file(name:'archivo.csv', description:'Cargar CSV')]
+                    InputCSVPath = input message:'Cargar', parameters:  [file(name:'archivo.xlsx', description:'Cargar CSV')]
                 }                
             }
         }
