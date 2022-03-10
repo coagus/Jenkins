@@ -3,7 +3,7 @@ def gv
 
 pipeline {
     agent any
-    tool {
+    tools {
         Groovy3
     }
 
