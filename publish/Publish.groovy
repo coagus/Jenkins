@@ -17,7 +17,9 @@ class Publish {
         while(rowIt.hasNext()) {
             Row row = rowIt.next()
             Cell cell = row.getCell(0)
-            println cell.getRichStringCellValue().getString()
+            if (cell != null && cell.getRichStringCellValue() != null) {
+                println cell.getRichStringCellValue().getString()
+            }            
         }
     }
 }
