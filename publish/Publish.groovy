@@ -24,18 +24,22 @@ class Publish {
             cell = row.getCell(0)
             if (cell != null && cell.getRichStringCellValue() != null) {
                 def project = cell.getRichStringCellValue().getString()
-
-                // Validate
-                def validate = new URL("http://100.126.0.13:7004/ecm/ecm/CatalogManagement/v2/project/${project}/validate").openConnection()
-                validate.setRequestProperty("OnBehalfOf", "upadmin")
-                validate.setRequestMethod("POST")                
-                def responseCode = validate.getResponseCode();
-                println(responseCode);
-                if(responseCode.equals(200)) {
-                    println(validate.getInputStream().getText());
+                
+                println "Validate ${project}:"
+                def [code, response] = postProject(project, "validate")
+                if (code == '200') {
+                    println "Response: ${response}"
+                } else {
+                    println "Error"
                 }
-
             }            
         }
+    }
+
+    def postProject(project, task) {
+        def post = new URL("http://100.126.0.13:7004/ecm/ecm/CatalogManagement/v2/project/${project}/${task}").openConnection()
+        post.setRequestProperty("OnBehalfOf", "upadmin")
+        post.setRequestMethod("POST")
+        [post.getResponseCode(), post.getInputStream()?.getText()]
     }
 }
