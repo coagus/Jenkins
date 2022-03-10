@@ -8,7 +8,7 @@ pipeline {
         stage('Cargar CSV') {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    gv = load "validarypublicar/script.groovy"
 					echo "*** SE PIDE EL CSV PARA CARGARLO ***"
                     InputCSVPath = input message:'Cargar', parameters:  [file(name:'archivo.csv', description:'Cargar CSV')]
                 }                
