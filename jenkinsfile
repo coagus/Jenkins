@@ -3,6 +3,9 @@ def gv
 
 pipeline {
     agent any
+    tool {
+        Groovy3
+    }
 
     stages {
         stage('Cargar Archivo') {
