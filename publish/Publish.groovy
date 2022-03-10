@@ -31,6 +31,8 @@ class Publish {
                     println "Response: ${response}"
                 } else {
                     println "Error"
+                    println code
+                    println response
                 }
             }            
         }
