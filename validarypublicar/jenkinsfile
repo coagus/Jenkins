@@ -1,0 +1,38 @@
+def InputCSVPath
+def gv
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Cargar CSV') {
+            steps {
+                script {
+                    gv = load "script.groovy"
+					echo "*** SE PIDE EL CSV PARA CARGARLO ***"
+                    InputCSVPath = input message:'Cargar', parameters:  [file(name:'archivo.csv', description:'Cargar CSV')]
+                }                
+            }
+        }
+		
+		stage('Validar y Publicar') {
+			steps {
+				script {
+					echo "*** LEEMOS ARCHIVO CSV ***"
+					readFile("${InputCSVPath}").split('\n').each { 
+							line, count -> def fields = line.split(',')
+
+                            def project = fields[0].trim()
+
+                            if (fields[1].trim() == '1') {
+                                echo ">>> VALIDANDO EL PROYECTO ${fields[0].trim()}"
+                                def (status, content) = gv.validar(project)
+                                echo status
+                                echo content
+                            }
+					}
+                }
+			}
+		}
+    }
+}
