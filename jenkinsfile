@@ -17,7 +17,7 @@ pipeline {
 		stage('Validar y Publicar') {
 			steps {
 				script {
-                    gv = load "validarypublicar/script.groovy"
+                    gv = load "script.groovy"
                     gv.hola()
 					echo "*** LEEMOS ARCHIVO CSV ***"
 					readFile("${InputCSVPath}").split('\n').each { 
