@@ -7,8 +7,7 @@ pipeline {
     stages {
         stage('Cargar CSV') {
             steps {
-                script {
-                    gv = load "validarypublicar/script.groovy"
+                script {                    
 					echo "*** SE PIDE EL CSV PARA CARGARLO ***"
                     InputCSVPath = input message:'Cargar', parameters:  [file(name:'archivo.csv', description:'Cargar CSV')]
                 }                
@@ -18,6 +17,7 @@ pipeline {
 		stage('Validar y Publicar') {
 			steps {
 				script {
+                    gv = load "validarypublicar/script.groovy"
 					echo "*** LEEMOS ARCHIVO CSV ***"
 					readFile("${InputCSVPath}").split('\n').each { 
 							line, count -> def fields = line.split(',')
