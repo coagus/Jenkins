@@ -1,19 +1,90 @@
-import jxl.*
-import jxl.write.*
+@Grab('org.apache.poi:poi:3.8')
+@Grab('org.apache.poi:poi-ooxml:3.8')
+import org.apache.poi.ss.usermodel.*
+import org.apache.poi.hssf.usermodel.*
+import org.apache.poi.xssf.usermodel.*
+import org.apache.poi.ss.util.*
+import org.apache.poi.ss.usermodel.*
+import java.io.*
 
 def readExcel(path) {
-    Workbook workbook1 = Workbook.getWorkbook(new File(path))
-    Sheet sheet1 = workbook1.getSheet(0)
-    Cell a1 = sheet1.getCell(0,2)
-    Cell b2 = sheet1.getCell(2,2)
-    Cell c2 = sheet1.getCell(2,1)
-     
-    println a1.getContents();
-    println b2.getContents();
-    println c2.getContents();  
-     
-    workbook1.close()
+    InputStream inp = new FileInputStream(path)
+    Workbook wb = WorkbookFactory.create(inp);
+    Sheet sheet = wb.getSheetAt(0);
+
+    Iterator<Row> rowIt = sheet.rowIterator()
+    Row row = rowIt.next()
+    def headers = getRowData(row)
+
+    def rows = []
+    while(rowIt.hasNext()) {
+      row = rowIt.next()
+      rows << getRowData(row)
+    }
+
+    println '------------------'
+    headers.each { header -> 
+      println header
+    }
+    println "\n"
+    println 'Rows'
+    println '------------------'
+    rows.each { row ->
+      println parser.toXml(headers, row)
+    }
 }
+
+def getRowData(Row row) {
+    def data = []
+    for (Cell cell : row) {
+      getValue(row, cell, data)
+    }
+    data
+  }
+
+  def getRowReference(Row row, Cell cell) {
+    def rowIndex = row.getRowNum()
+    def colIndex = cell.getColumnIndex()
+    CellReference ref = new CellReference(rowIndex, colIndex)
+    ref.getRichStringCellValue().getString()
+  }
+ 
+  def getValue(Row row, Cell cell, List data) {
+    def rowIndex = row.getRowNum()
+    def colIndex = cell.getColumnIndex()
+    def value = ""
+    switch (cell.getCellType()) {
+      case Cell.CELL_TYPE_STRING:
+        value = cell.getRichStringCellValue().getString();
+        break;
+      case Cell.CELL_TYPE_NUMERIC:
+        if (DateUtil.isCellDateFormatted(cell)) {
+            value = cell.getDateCellValue();
+        } else {
+            value = cell.getNumericCellValue();
+        }
+        break;
+      case Cell.CELL_TYPE_BOOLEAN:
+        value = cell.getBooleanCellValue();
+        break;
+      case Cell.CELL_TYPE_FORMULA:
+        value = cell.getCellFormula();
+        break;
+      default:
+        value = ""
+    }
+    data[colIndex] = value
+    data
+  }
+
+   def toXml(header, row) {
+    def obj = "<object>\n"
+    row.eachWithIndex { datum, i -> 
+      def headerName = header[i]
+      obj += "\t<$headerName>$datum</$headerName>\n" 
+    } 
+    obj += "</object>"
+  }
 
 def validate(project) {
     echo "valideate${project}"
