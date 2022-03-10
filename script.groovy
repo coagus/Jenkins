@@ -1,5 +1,3 @@
-@Grab('org.apache.poi:poi:3.8')
-@Grab('org.apache.poi:poi-ooxml:3.8')
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.hssf.usermodel.*
 import org.apache.poi.xssf.usermodel.*
