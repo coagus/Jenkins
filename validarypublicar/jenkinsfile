@@ -18,6 +18,7 @@ pipeline {
 			steps {
 				script {
                     gv = load "validarypublicar/script.groovy"
+                    gv.hola()
 					echo "*** LEEMOS ARCHIVO CSV ***"
 					readFile("${InputCSVPath}").split('\n').each { 
 							line, count -> def fields = line.split(',')

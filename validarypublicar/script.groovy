@@ -9,3 +9,7 @@ def validate(project) {
 def publicar(project) {
 
 }
+
+def hola() {
+    echo "hola, si funciona!"
+}
