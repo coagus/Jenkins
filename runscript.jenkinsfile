@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    
+
+    stages {
+        stage('Cargar Archivo') {
+            steps {
+                script {                    
+					echo "*** SE PIDE EL CSV PARA CARGARLO ***"
+                    InputCSVPath = input message:'Cargar', parameters:  [file(name:'archivo.xlsx', description:'Cargar CSV')]
+                }                
+            }
+        }
+		
+		stage('Validar y Publicar') {
+			steps {
+				script {
+                    sh "grovy test.groovy"
+                }
+			}
+		}
+    }
+}
