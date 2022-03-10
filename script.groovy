@@ -13,3 +13,5 @@ def publicar(project) {
 def hola() {
     echo "hola, si funciona!"
 }
+
+return this
