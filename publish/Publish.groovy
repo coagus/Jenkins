@@ -8,8 +8,8 @@ import org.apache.poi.ss.usermodel.*
 import java.io.*
 
 class Publish {
-    static void main(String[] args){
-        InputStream inp = new FileInputStream(args[0])
+    def publishFromXlsx(path) {
+        InputStream inp = new FileInputStream(path)
         Workbook wb = WorkbookFactory.create(inp)
         Sheet sheet = wb.getSheetAt(0)
         Iterator<Row> rowIt = sheet.rowIterator()
@@ -26,9 +26,9 @@ class Publish {
                 def project = cell.getRichStringCellValue().getString()
                 def task = "validate"
                 println "Validate ${project}:"
-                def post = postProject(project, task)
-                if (post.getResponseCode() == '200') {
-                    println "Response: ${post.getInputStream()?.getText()}"
+                def (code, response) = postProject(project, task)
+                if (code == '200') {
+                    println "Response: ${response}"
                 } else {
                     println "Error"
                 }
@@ -40,6 +40,11 @@ class Publish {
         def post = new URL("http://100.126.0.13:7004/ecm/ecm/CatalogManagement/v2/project/${project}/${task}").openConnection()
         post.setRequestProperty("OnBehalfOf", "upadmin")
         post.setRequestMethod("POST")
-        post
+        [post.getResponseCode(), post.getInputStream()?.getText()]
+    }
+
+    static void main(String[] args){
+        Publish publish = new Publish()
+        publish.publishFromXlsx(args[0])
     }
 }
