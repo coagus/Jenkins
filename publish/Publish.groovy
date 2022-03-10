@@ -14,11 +14,23 @@ class Publish {
         Sheet sheet = wb.getSheetAt(0)
         Iterator<Row> rowIt = sheet.rowIterator()
 
+        // Header
+        Row row = rowIt.next()
+        Cell cell = row.getCell(0)
+
+        // Read the project list
         while(rowIt.hasNext()) {
-            Row row = rowIt.next()
-            Cell cell = row.getCell(0)
+            row = rowIt.next()
+            cell = row.getCell(0)
             if (cell != null && cell.getRichStringCellValue() != null) {
-                println cell.getRichStringCellValue().getString()
+                def project = cell.getRichStringCellValue().getString()
+
+                // Validate
+                def response = httpRequest url:"http://100.126.0.13:7004/ecm/ecm/CatalogManagement/v2/project/${project}/validate", 
+                    httpMode: 'POST', customHeaders: [[name: 'OnBehalfOf', value: 'upadmin']]
+                
+                echo "status: ${response.status}"
+                echo "status: ${response.content}"
             }            
         }
     }
