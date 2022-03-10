@@ -28,8 +28,8 @@ pipeline {
                             if (fields[1].trim() == '1') {
                                 echo ">>> VALIDANDO EL PROYECTO ${project}"
                                 def (status, content) = gv.validate(project)
-                                echo status
-                                echo content
+                                println status
+                                println content
                             }
 					}
                 }

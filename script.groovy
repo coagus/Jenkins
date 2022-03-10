@@ -3,6 +3,8 @@ def validate(project) {
     def response = httpRequest url:"http://100.126.0.13:7004/ecm/ecm/CatalogManagement/v2/project/${project}/validate", 
         httpMode: 'POST', customHeaders: [[name: 'OnBehalfOf', value: 'upadmin']]
         
+    echo "status: ${response.status}"
+    echo "status: ${response.content}"
     [response.status, response.content]
 }
 
