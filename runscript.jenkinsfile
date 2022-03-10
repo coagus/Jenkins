@@ -15,7 +15,7 @@ pipeline {
 		stage('Validar y Publicar') {
 			steps {
 				script {
-                    sh "groovy test.groovy ${InputCSVPath}"
+                    sh "groovy test.groovy \"${InputCSVPath}\""
                 }
 			}
 		}
