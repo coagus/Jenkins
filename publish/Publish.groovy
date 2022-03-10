@@ -24,9 +24,9 @@ class Publish {
             cell = row.getCell(0)
             if (cell != null && cell.getRichStringCellValue() != null) {
                 def project = cell.getRichStringCellValue().getString()
-                
+                def task = "validate"
                 println "Validate ${project}:"
-                def (code, response) = postProject(project, "validate")
+                def (code, response) = postProject(project, task)
                 if (code == '200') {
                     println "Response: ${response}"
                 } else {
