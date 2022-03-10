@@ -36,7 +36,7 @@ class Publish {
         }
     }
 
-    def postProject(project, task) {
+    postProject(project, task) {
         def post = new URL("http://100.126.0.13:7004/ecm/ecm/CatalogManagement/v2/project/${project}/${task}").openConnection()
         post.setRequestProperty("OnBehalfOf", "upadmin")
         post.setRequestMethod("POST")
