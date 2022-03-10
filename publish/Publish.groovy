@@ -27,7 +27,7 @@ class Publish {
                 def task = "validate"
                 println "Validate ${project}:"
                 def (code, response) = postProject(project, task)
-                if (code == '200') {
+                if (code == 200) {
                     println "Response: ${response}"
                 } else {
                     println "Error"
