@@ -23,12 +23,12 @@ class Publish {
             row = rowIt.next()
             cell = row.getCell(0)
             if (cell != null && cell.getRichStringCellValue() != null) {
-                String project = cell.getRichStringCellValue().getString()
-                String task = "validate"
+                def project = cell.getRichStringCellValue().getString()
+                def task = "validate"
                 println "Validate ${project}:"
-                def (code, response) = postProject(project, task)
-                if (code == '200') {
-                    println "Response: ${response}"
+                def post = postProject(project, task)
+                if (post.getResponseCode() == '200') {
+                    println "Response: ${post.getInputStream()?.getText()}"
                 } else {
                     println "Error"
                 }
@@ -40,6 +40,6 @@ class Publish {
         def post = new URL("http://100.126.0.13:7004/ecm/ecm/CatalogManagement/v2/project/${project}/${task}").openConnection()
         post.setRequestProperty("OnBehalfOf", "upadmin")
         post.setRequestMethod("POST")
-        [post.getResponseCode(), post.getInputStream()?.getText()]
+        post
     }
 }
