@@ -14,5 +14,11 @@ class LoadExcel {
         InputStream inp = new FileInputStream(args[0])
         Workbook wb = WorkbookFactory.create(inp)
         Sheet sheet = wb.getSheetAt(0)
+
+        Iterator<Row> rowIt = sheet.rowIterator()
+        Row row = rowIt.next()
+        for (Cell cell : row) {
+            println cell.getRichStringCellValue().getString()
+        }
     }
 }
