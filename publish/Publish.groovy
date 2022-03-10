@@ -23,8 +23,8 @@ class Publish {
             row = rowIt.next()
             cell = row.getCell(0)
             if (cell != null && cell.getRichStringCellValue() != null) {
-                def project = cell.getRichStringCellValue().getString()
-                def task = "validate"
+                String project = cell.getRichStringCellValue().getString()
+                String task = "validate"
                 println "Validate ${project}:"
                 def (code, response) = postProject(project, task)
                 if (code == '200') {
@@ -36,7 +36,7 @@ class Publish {
         }
     }
 
-    postProject(project, task) {
+    def postProject(project, task) {
         def post = new URL("http://100.126.0.13:7004/ecm/ecm/CatalogManagement/v2/project/${project}/${task}").openConnection()
         post.setRequestProperty("OnBehalfOf", "upadmin")
         post.setRequestMethod("POST")
