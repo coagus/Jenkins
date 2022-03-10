@@ -18,8 +18,8 @@ pipeline {
 			steps {
 				script {
                     gv = load "script.groovy"
-                    gv.hola()
-					echo "*** LEEMOS ARCHIVO CSV ***"
+                    /*
+                    echo "*** LEEMOS ARCHIVO CSV ***"
 					readFile("${InputCSVPath}").split('\n').each { 
 							line, count -> def fields = line.split(',')
 
@@ -31,7 +31,9 @@ pipeline {
                                 println status
                                 println content
                             }
-					}
+					}*/
+
+                    gv.readExcel("${InputCSVPath}")
                 }
 			}
 		}
