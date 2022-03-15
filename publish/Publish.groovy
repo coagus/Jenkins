@@ -26,7 +26,7 @@ class Publish {
         while(rowIt.hasNext()) {
             row = rowIt.next()
             cell = row.getCell(0)
-            if (cell != null && cell.getRichStringCellValue() != null) {
+            if (cell != null && cell.getRichStringCellValue() != null && cell.getRichStringCellValue().getString().trim() != "") {
                 def project = cell.getRichStringCellValue().getString()
                 
                 if (postProject(project, VALIDATE) && postProject(project, PUBLISH)) {
@@ -55,9 +55,7 @@ class Publish {
         println response
         if (code == 200) {
             def jsResp = jsonSlurper.parseText(response)
-            if (jsResp.fault == null) {
-                result = jsResp.status[0] == 200
-            }
+            result = jsResp.status != null && jsResp.status[0] == 200
         }
         result
     }
