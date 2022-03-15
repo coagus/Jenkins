@@ -55,7 +55,9 @@ class Publish {
         println response
         if (code == 200) {
             def jsResp = jsonSlurper.parseText(response)
-            result = jsResp.status[0] == 200
+            if (jsResp.fault == null) {
+                result = jsResp.status[0] == 200
+            }
         }
         result
     }
